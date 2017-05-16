@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "catstart": "nodemon cat_server.js",
+    "dogstart": "nodemon dog_server.js",
+    "start": "node pet_server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +16,8 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "lodash": "^4.17.4",
-    "mongoose": "^4.9.8"
+    "mongoose": "^4.9.8",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
