@@ -34,16 +34,16 @@ module.exports = function (app) {
                     error: err
                 });
             };
-            res.json({
-                info: 'dogs found successfully',
-                data: dogs
-            });
-            // setTimeout(function () {
-            //     res.json({
-            //         info: 'dogs found successfully',
-            //         data: dogs
-            //     });
-            // }, 10000);
+            // res.json({
+            //     info: 'dogs found successfully',
+            //     data: dogs
+            // });
+            setTimeout(function () {
+                res.json({
+                    info: 'dogs found successfully',
+                    data: dogs
+                });
+            }, 10000);
         });
     });
 

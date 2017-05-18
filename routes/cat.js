@@ -1,12 +1,12 @@
 var _ = require('lodash');
-var Cat = require('../models/cat.js');
+var cat = require('../models/cat.js');
 
 module.exports = function (app) {
     //_cats = [];
 
     // Create
     app.post('/cat', function (req, res) {
-        var newCat = new Cat(req.body);
+        var newCat = new cat(req.body);
         newCat.save(function (err) {
             if (err) {
                 res.json({
@@ -27,7 +27,7 @@ module.exports = function (app) {
     // Read
     app.get('/cat', function (req, res) {
         // res.send(_cats);
-        Cat.find(function (err, cats) {
+        cat.find(function (err, cats) {
             if (err) {
                 res.json({
                     info: 'error during find cats',
@@ -45,7 +45,7 @@ module.exports = function (app) {
         // res.send(_.find(_cats, {
         //     name: req.params.id
         // }));
-        Cat.findById(req.params.id, function (err, cats) {
+        cat.findById(req.params.id, function (err, cats) {
             if (err) {
                 res.json({
                     info: 'error during find cat',
@@ -53,10 +53,16 @@ module.exports = function (app) {
                 });
             }
             if (cat) {
-                res.json({
-                    info: 'cat found successfully',
-                    data: cats
-                });
+                // res.json({
+                //     info: 'cat found successfully',
+                //     data: cats
+                // });
+                setTimeout(function () {
+                    res.json({
+                        info: 'cats found successfully',
+                        data: cats
+                    });
+                }, 5000);
             } else {
                 res.json({
                     info: 'cat not found.'
@@ -74,7 +80,7 @@ module.exports = function (app) {
         // res.json({
         //     info: 'cats updated successfully'
         // });
-        Cat.findById(req.params.id, function (err, cat) {
+        cat.findById(req.params.id, function (err, cat) {
             if (err) {
                 res.json({
                     info: 'error during find cat',
@@ -110,7 +116,7 @@ module.exports = function (app) {
         // res.json({
         //     info: 'cats removed successfully'
         // });
-        Cat.findByIdAndRemove(req.params.id, function (err) {
+        cat.findByIdAndRemove(req.params.id, function (err) {
             if (err) {
                 res.json({
                     info: 'error during remove cat',

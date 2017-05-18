@@ -3,6 +3,15 @@ var r = require('request').defaults({
 });
 
 var async = require('async');
+var redis = require('redis');
+var ops = {
+    auth_pass: 'ILT2dzhnxXnbJul7Vbs0rWfAyzV4HowL7TdoikNMQuE=',
+    tls: {
+        servername: 'SimplifiedPORedisBPRT.redis.cache.windows.net'
+    }
+};
+
+var client = redis.createClient(6380, 'SimplifiedPORedisBPRT.redis.cache.windows.net', ops);
 
 module.exports = function (app) {
 
@@ -59,9 +68,40 @@ module.exports = function (app) {
                 });
             });
     });
+
     app.get('/ping', function (req, res) {
         res.json({
             pong: Date.now()
+        });
+    });
+
+    app.get('/catname/:id', function (req, res) {
+        client.get(req.params.id, function (error, cat) {
+            if (error) {
+                throw error;
+            };
+            if (cat) {
+                res.json(JSON.parse(cat));
+            } else {
+                r({
+                    uri: 'http://localhost:3000/cat/' + req.params.id
+                }, function (error, response, body) {
+                    if (error) {
+                        throw error;
+                    };
+                    if (!error && response.statusCode === 200) {
+                        res.json(body);
+                        // client.set(req.params.id, JSON.stringify(body), function (error) {
+                        client.setex(req.params.id, 10, JSON.stringify(body), function (error) {
+                            if (error) {
+                                throw error;
+                            }
+                        });
+                    } else {
+                        res.send(response.statusCode);
+                    }
+                });
+            }
         });
     });
 };
